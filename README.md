@@ -1,18 +1,23 @@
-# SparkTG redesign concept
+# SparkTG redesign concept (unofficial)
 
-An unofficial student redesign of the SparkTG website, built with React and Vite.
-Not made by, endorsed by or connected to SparkTG.
+A single-page redesign concept of sparktg.com by Samaira Sahay, a student.
+Not made by, endorsed by or connected to SparkTG. Nothing on the page sends data anywhere.
 
-## Run it
+The whole site is one file: `index.html` (inline CSS and JS, no build step).
 
-```bash
-npm install
-npm run dev      # local dev server
-npm run build    # static site in dist/, deployable to Netlify, Vercel or GitHub Pages
-```
+## View it
 
-## Where things live
+Double-click `index.html`. It opens in any browser. (The font loads from Google Fonts when online; offline it falls back to the system sans-serif.)
 
-- `src/content.js`: all the copy (products, sectors, stats, jargon definitions). Edit text here.
-- `src/App.jsx`: the page sections.
-- `src/styles.css`: colours, layout and responsive rules.
+## Put it online with GitHub Pages
+
+1. Push this repo to GitHub.
+2. Repo **Settings > Pages > Build and deployment > Source: GitHub Actions**.
+3. Open the **Actions** tab, choose **Deploy to GitHub Pages**, press **Run workflow**.
+4. The site appears at `https://<your-username>.github.io/<repo-name>/`. Every later push to the listed branches redeploys it.
+
+If the run says the branch isn't allowed, add it under **Settings > Environments > github-pages > Deployment branches**.
+
+## Editing
+
+All copy is in `index.html`. Jargon definitions are the `data-def` attributes on the underlined terms.
