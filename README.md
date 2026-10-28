@@ -21,3 +21,12 @@ If the run says the branch isn't allowed, add it under **Settings > Environments
 ## Editing
 
 All copy is in `index.html`. Jargon definitions are the `data-def` attributes on the underlined terms.
+
+## The menu (flow-chart drawer)
+
+The Menu button opens a drawer that works like a flow chart: Products, Solutions and Resources branch into categories, then items, and each item opens a short page. Every page has its own link (for example `#/products/ivr`), so refresh, Back and shared links all work.
+
+- The menu tree is the plain nested list in `<nav class="sitemap">` near the bottom of `index.html`. It is also the no-JavaScript fallback.
+- Page text for each item is in the `DATA` object in the script at the end of the file.
+- `SOURCES.md` lists every page, the sparktg.com path it came from, and which items are unverified.
+- Not read for this concept (shown as a one-line description plus a link): Account Detail, AI Agents, SparkTG APIs, Zoho Integration, Webinars, the items beyond the confirmed ones in Conversational AI, WABA Solution and Interaction Insights, and the Case Studies index. If you can open sparktg.com, add them with the same level of detail.

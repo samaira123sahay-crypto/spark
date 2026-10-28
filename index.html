@@ -50,7 +50,6 @@ header.site{position:sticky;top:0;z-index:30;background:rgba(251,252,253,.94);ba
 nav ul{display:flex;gap:2px}
 nav a{display:block;text-decoration:none;font-size:15px;font-weight:500;color:var(--slate);padding:6px 13px;border-radius:999px}
 nav a:hover,nav a.on{background:var(--mist);color:var(--ink)}
-.menu-btn{display:none}
 
 /* buttons */
 .btn{display:inline-block;font:inherit;font-weight:600;font-size:15px;line-height:1.2;text-decoration:none;border:1.5px solid var(--ink);color:var(--ink);background:transparent;padding:11px 20px;border-radius:999px;cursor:pointer}
@@ -108,7 +107,7 @@ section + section:not(.band):not(.dark){border-top:1px solid var(--line)}
 .term:hover,.term[aria-expanded="true"]{border-bottom-color:var(--spark);background:rgba(0,171,185,.18)}
 .no-js .term{cursor:default;border-bottom:0}
 .no-js .term::after{content:" (" attr(data-def) ")";color:var(--slate);font-size:.88em}
-.pop{position:absolute;z-index:50;width:min(300px,calc(100vw - 32px));background:var(--ink);color:var(--paper);font-size:15px;line-height:1.45;padding:12px 14px;border-radius:8px;font-weight:400;letter-spacing:0}
+.pop{position:absolute;z-index:120;width:min(300px,calc(100vw - 32px));background:var(--ink);color:var(--paper);font-size:15px;line-height:1.45;padding:12px 14px;border-radius:8px;font-weight:400;letter-spacing:0}
 .pop strong{display:block;margin-bottom:2px;color:var(--spark)}
 .pop[hidden]{display:none}
 
@@ -191,7 +190,7 @@ input{width:100%;font:inherit;font-size:16px;padding:11px 14px;border:1.5px soli
 .call-form .fine{margin-top:12px}
 .demos{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
 .demos p{margin-bottom:10px;font-weight:600}
-.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,16px);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:70;max-width:calc(100vw - 32px);text-align:center}
+.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,16px);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-size:15px;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;z-index:130;max-width:calc(100vw - 32px);text-align:center}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 
 /* footer */
@@ -228,13 +227,9 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
   .rows.two li,.rows.two .row{grid-template-columns:1fr;gap:4px}
   .route .d{display:none}
   .route .m{display:block;max-width:360px;margin:0 auto}
-  .menu-btn{display:inline-block;font:inherit;font-weight:600;font-size:15px;background:none;border:1.5px solid var(--ink);border-radius:999px;padding:7px 14px;color:var(--ink);cursor:pointer}
-  nav{position:absolute;left:0;right:0;top:60px;background:var(--paper);border-bottom:1px solid var(--line);display:none}
-  .js nav.open{display:block}
-  .no-js nav{position:static;display:block}
-  nav ul{flex-direction:column;padding:8px 24px 16px}
-  nav a{padding:12px 0;font-size:18px;border-radius:0}
-  nav a:hover,nav a.on{background:none}
+  nav{display:none}
+  .no-js nav{display:block}
+  .no-js nav ul{flex-wrap:wrap}
   .no-js .bar{flex-wrap:wrap;height:auto;padding:10px 24px}
   .no-js .menu-btn{display:none}
   .bar{gap:10px}
@@ -255,6 +250,100 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
   .js .msg{opacity:1;transform:none;transition:none}
   .wave i{animation:none}
   .toast{transition:none}
+}
+
+/* ---- flow-chart menu drawer ---- */
+:root{--amber:#FFB020}
+.menu-btn{display:inline-block;font:inherit;font-weight:600;font-size:15px;line-height:1.2;background:none;border:1.5px solid var(--ink);border-radius:999px;padding:8px 16px;color:var(--ink);cursor:pointer}
+.menu-btn:hover,.menu-btn[aria-expanded="true"]{background:var(--ink);color:var(--paper)}
+.sr{position:absolute;left:-999px}
+.scrim{position:fixed;inset:0;background:rgba(16,38,74,.45);z-index:90;opacity:0;visibility:hidden;transition:opacity .2s,visibility 0s linear .2s}
+.scrim.on{opacity:1;visibility:visible;transition:opacity .2s}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:480px;max-width:100%;background:var(--paper);color:var(--ink);z-index:100;display:flex;flex-direction:column;transform:translateX(100%);visibility:hidden;transition:transform .25s ease,visibility 0s linear .25s}
+.drawer.open{transform:none;visibility:visible;transition:transform .25s ease}
+.no-js .drawer,.no-js .scrim{display:none}
+.d-head{display:flex;align-items:flex-start;gap:12px;padding:14px 16px 14px 20px;border-bottom:1px solid var(--line);min-height:60px}
+.crumbs{flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:2px 8px;font-size:14.5px;padding-top:6px;color:var(--slate)}
+.crumb{font:inherit;background:none;border:0;padding:2px 0;color:var(--ink);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.crumbs .cur{color:var(--ink);font-weight:600}
+.d-close{flex:none;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--ink);background:none;color:var(--ink);cursor:pointer;display:grid;place-items:center}
+.d-close:hover{background:var(--ink);color:var(--paper)}
+.d-close svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round}
+.d-main{position:relative;flex:1;min-height:0;overflow:hidden}
+.d-scroll{height:100%;overflow:auto;overscroll-behavior:contain;padding:20px 20px 28px}
+.chart{position:relative}
+.chart svg.conn{position:absolute;left:0;top:0;pointer-events:none;overflow:visible}
+.kids{position:relative;display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin-left:40px;padding-top:12px}
+.node{position:relative;display:flex;align-items:center;gap:10px;height:48px;padding:0 12px 0 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper);color:var(--ink);font-size:15.5px;font-weight:500;cursor:pointer;user-select:none}
+.node:hover{background:var(--mist)}
+.node[aria-expanded="true"]{border-color:var(--ink);font-weight:600}
+.node.root{cursor:default;width:max-content;max-width:100%;padding-right:18px;height:44px}
+.node.root:hover{background:var(--paper)}
+.node .ic{flex:none;width:32px;height:32px;border-radius:6px;background:var(--mist);display:grid;place-items:center}
+.node .ic svg{width:20px;height:20px;fill:none;stroke:var(--ink);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.node .lab{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.node.root .lab{flex:none}
+.node .cnt{color:var(--slate);font-size:13.5px;font-weight:500}
+.node .chip{background:var(--amber);color:var(--ink);border-radius:999px;font-size:12.5px;font-weight:600;padding:2px 10px}
+.node .chev{flex:none;width:16px;height:16px;fill:none;stroke:var(--slate);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform .2s}
+.node[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.node.fold{height:36px;border-style:dashed;color:var(--slate);font-size:14px;font-weight:400;padding:0 12px}
+.node.enter{animation:nodeIn .22s ease both}
+@keyframes nodeIn{from{opacity:0;transform:translateY(-4px)}}
+.otp{margin-top:28px;padding-top:16px;border-top:1px solid var(--line)}
+.otp h2{font-size:14.5px;font-weight:500;color:var(--slate);margin:0 0 8px;letter-spacing:0;max-width:none}
+.otp ul{display:flex;flex-wrap:wrap;gap:6px}
+.otp a{display:block;padding:6px 12px;border:1px solid var(--line);border-radius:999px;text-decoration:none;font-size:14.5px}
+.otp a:hover{background:var(--mist)}
+.d-foot{display:flex;align-items:center;flex-wrap:wrap;gap:10px 14px;padding:12px 20px;border-top:1px solid var(--line);background:var(--paper)}
+.d-foot .ph{font-weight:600;text-decoration:none}
+.d-foot .ph:hover{text-decoration:underline}
+.d-foot .lang{margin:0 0 0 auto;background:var(--paper);color:var(--ink);border:1px solid var(--line)}
+
+/* item page */
+.page{position:absolute;inset:0;background:var(--paper);overflow:auto;overscroll-behavior:contain;padding:20px 20px 32px;transform:translateX(100%);visibility:hidden;transition:transform .22s ease,visibility 0s linear .22s}
+.page.on{transform:none;visibility:visible;transition:transform .22s ease}
+.page h2{font-size:1.65rem;line-height:1.15;letter-spacing:-.02em;margin:18px 0 6px;max-width:none}
+.page h2:focus{outline:none}
+.page .one{color:var(--slate);max-width:52ch}
+.pg{margin-top:22px}
+.pg h3{font-size:1rem;margin:0 0 6px}
+.pg p,.pg li{max-width:58ch;font-size:16px}
+.pg p{margin:0}
+.checks li{position:relative;padding-left:24px;margin:7px 0}
+.checks li::before{content:"";position:absolute;left:5px;top:.42em;width:6px;height:11px;border:solid var(--ink);border-width:0 2px 2px 0;transform:rotate(45deg) scale(.8)}
+.tag{color:var(--slate);font-size:13.5px}
+.note{margin:22px 0 0;max-width:52ch;color:var(--slate)}
+.page .cta{margin-top:26px}
+.src{margin:22px 0 0;font-size:13.5px;color:var(--slate);max-width:56ch}
+.flow svg{width:100%;height:auto;display:block}
+.tbl{overflow-x:auto}
+.tbl table{border-collapse:collapse;width:100%;font-size:14.5px;line-height:1.4}
+.tbl th,.tbl td{text-align:left;vertical-align:top;padding:9px 10px 9px 0;border-top:1px solid var(--line)}
+.tbl thead th{border-top:0;font-weight:600}
+.tbl tbody th{font-weight:600;color:var(--slate);width:22%}
+.page .term,.page .one{overflow-wrap:anywhere}
+
+/* no-JS fallback: the same menu as a plain nested list */
+.sitemap{padding:56px 0;border-top:1px solid var(--line);background:var(--mist)}
+.js .sitemap{display:none}
+.sitemap h2{font-size:1.5rem;margin-bottom:14px}
+.sitemap ul{list-style:none;padding:0;margin:0}
+.sitemap ul ul{padding-left:22px;list-style:disc;margin:4px 0 8px}
+.sitemap li{margin:3px 0}
+.sitemap .o{color:var(--slate)}
+.sitemap .o::before{content:" - "}
+
+@media (max-width:600px){
+  .kids{margin-left:16px}
+  .d-scroll{padding:16px 16px 24px}
+  .page{padding:16px 16px 28px}
+  .d-foot{padding:12px 16px}
+  .d-head{padding-left:16px}
+}
+@media (prefers-reduced-motion:reduce){
+  .drawer,.drawer.open,.page,.page.on,.scrim,.scrim.on,.node .chev{transition:none}
+  .node.enter{animation:none}
 }
 </style>
 </head>
@@ -277,7 +366,7 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
       </ul>
     </nav>
     <a class="btn solid sm" href="#talk">Get a call</a>
-    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="nav">Menu</button>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="drawer" aria-haspopup="dialog">Menu</button>
   </div>
 </header>
 
@@ -531,6 +620,96 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
 
 </main>
 
+<nav class="sitemap" aria-label="Site map">
+  <div class="wrap">
+    <h2>All menus</h2>
+    <ul>
+      <li data-id="products" data-icon="box"><span class="n">Products</span>
+        <ul>
+          <li data-id="contact-center" data-icon="headset" data-count="8"><span class="n">Contact Center Solution</span>
+        <ul>
+          <li data-id="vcc" data-icon="headset"><a class="n" href="https://sparktg.com/products/vcc-solution" target="_blank" rel="noopener noreferrer">SparkTG VCC</a> <span class="o">Complete business phone system</span></li>
+          <li data-id="suno" data-icon="phonewave"><a class="n" href="https://sparktg.com/products/suno-calling-app" target="_blank" rel="noopener noreferrer">Suno by SparkTG</a> <span class="o">Mobile calling, CRM and WhatsApp app for field teams</span></li>
+          <li data-id="agent-app" data-icon="mobile"><a class="n" href="https://sparktg.com/products/sparktg-agent-app" target="_blank" rel="noopener noreferrer">SparkTG Agent App</a> <span class="o">Contact-centre calling, CRM and WhatsApp on mobile</span></li>
+          <li data-id="ivr" data-icon="list"><a class="n" href="https://sparktg.com/features/ivr-solution-provider" target="_blank" rel="noopener noreferrer">IVR</a> <span class="o">Interactive Voice Response systems</span></li>
+          <li data-id="virtual-receptionist" data-icon="person"><a class="n" href="https://sparktg.com/features/virtual-receptionist" target="_blank" rel="noopener noreferrer">Virtual Receptionist</a> <span class="o">AI-powered reception services</span></li>
+          <li data-id="toll-free" data-icon="phone"><a class="n" href="https://sparktg.com/features/toll-free-number" target="_blank" rel="noopener noreferrer">Toll Free Number</a> <span class="o">Professional toll-free numbers</span></li>
+          <li data-id="call-masking" data-icon="mask"><a class="n" href="https://sparktg.com/products/call-masking" target="_blank" rel="noopener noreferrer">Call Masking</a> <span class="o">Keeps phone numbers private</span></li>
+          <li data-id="click-to-call" data-icon="cursor"><a class="n" href="https://sparktg.com/features/click2call" target="_blank" rel="noopener noreferrer">Click to Call</a> <span class="o">One-click calling from a website or app</span></li>
+        </ul>
+      </li>
+          <li data-id="conversational-ai" data-icon="bot" data-count="7"><span class="n">Conversational AI</span>
+        <ul>
+          <li data-id="ai-voice-bot" data-icon="mic"><a class="n" href="https://sparktg.com/products/ai-voice-bot" target="_blank" rel="noopener noreferrer">AI Voice Bot</a> <span class="o">Answers calls and handles routine questions</span></li>
+          <li data-id="ai-chat-bot" data-icon="chatdots"><a class="n" href="https://sparktg.com/products/ai-chat-bot" target="_blank" rel="noopener noreferrer">AI Chat Bot</a> <span class="o">Answers messages on WhatsApp, websites and apps</span></li>
+          <!-- The brief did not say which category AI Waba Bot belongs to. Putting it under Conversational AI is a guess. -->
+<li data-id="ai-waba-bot" data-icon="chatdots"><a class="n" href="https://sparktg.com/products/ai-waba-bot" target="_blank" rel="noopener noreferrer">AI Waba Bot</a> <span class="o">An AI chatbot on the official WhatsApp Business API</span></li>
+          <li data-id="ai-more" data-icon="ext"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">See all 7 on sparktg.com</a> <span class="o">Opens sparktg.com in a new tab</span></li>
+        </ul>
+      </li>
+          <li data-id="waba" data-icon="chat" data-count="5"><span class="n">WABA Solution</span>
+        <ul>
+          <li data-id="whatsapp-api" data-icon="chat"><a class="n" href="https://sparktg.com/products/whatsapp-business-api-provider-india" target="_blank" rel="noopener noreferrer">WhatsApp Business API</a> <span class="o">Official WhatsApp messaging for businesses</span></li>
+          <li data-id="waba-more" data-icon="ext"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">See all 5 on sparktg.com</a> <span class="o">Opens sparktg.com in a new tab</span></li>
+        </ul>
+      </li>
+          <li data-id="insights" data-icon="chart" data-count="3"><span class="n">Interaction Insights</span>
+        <ul>
+          <li data-id="insights-info" data-icon="chart"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">What it covers</a> <span class="o">Analytics, sentiment analysis, call scoring and quality checks</span></li>
+          <li data-id="insights-more" data-icon="ext"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">See all 3 on sparktg.com</a> <span class="o">Opens sparktg.com in a new tab</span></li>
+        </ul>
+      </li>
+        </ul>
+      </li>
+      <li data-id="solutions" data-icon="compass"><span class="n">Solutions</span>
+        <ul>
+          <li data-id="by-industry" data-icon="building" data-count="5"><span class="n">By industry</span>
+        <ul>
+          <li data-id="education" data-icon="cap"><a class="n" href="https://sparktg.com/solutions/education-communication-solution" target="_blank" rel="noopener noreferrer">Education</a> <span class="o">Communication for schools and universities</span></li>
+          <li data-id="healthcare" data-icon="heart"><a class="n" href="https://sparktg.com/solutions/healthcare-communication-solution" target="_blank" rel="noopener noreferrer">Healthcare</a> <span class="o">Patient communication for healthcare providers</span></li>
+          <li data-id="travel" data-icon="plane"><a class="n" href="https://sparktg.com/solutions/travel-hospitality" target="_blank" rel="noopener noreferrer">Travel &amp; Hospitality</a> <span class="o">Better guest experiences</span></li>
+          <li data-id="ecommerce" data-icon="cart"><a class="n" href="https://sparktg.com/solutions/e-commerce-communication-solution" target="_blank" rel="noopener noreferrer">E-Commerce</a> <span class="o">Better support for online stores</span></li>
+          <li data-id="shopify-whatsapp" data-icon="bag"><a class="n" href="https://sparktg.com/solutions/shopify-whatsapp-integration" target="_blank" rel="noopener noreferrer">Shopify + WhatsApp</a> <span class="o">Order, delivery and re-engagement messages on WhatsApp</span></li>
+        </ul>
+      </li>
+          <li data-id="by-need" data-icon="target" data-count="2"><span class="n">By need</span>
+        <ul>
+          <li data-id="sales-marketing" data-icon="megaphone"><a class="n" href="https://sparktg.com/solutions/sales-marketing" target="_blank" rel="noopener noreferrer">Sales &amp; Marketing</a> <span class="o">Drive conversions with better communication tools</span></li>
+          <li data-id="customer-service" data-icon="lifebuoy"><a class="n" href="https://sparktg.com/solutions/customer-service" target="_blank" rel="noopener noreferrer">Customer Service</a> <span class="o">Support across all channels</span></li>
+        </ul>
+      </li>
+        </ul>
+      </li>
+      <li data-id="resources" data-icon="book"><span class="n">Resources</span>
+        <ul>
+          <li data-id="learning" data-icon="lifebuoy" data-count="6"><span class="n">Learning &amp; Support</span>
+        <ul>
+          <li data-id="account-detail" data-icon="user"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">Account Detail</a> <span class="o">Manage your account settings and preferences</span></li>
+          <li data-id="telephony-apps" data-icon="mobile"><a class="n" href="https://sparktg.com/products/telephony-app" target="_blank" rel="noopener noreferrer">Telephony Apps</a> <span class="o">Compare Suno and SparkTG Agent mobile apps</span></li>
+          <li data-id="terms" data-icon="doc"><a class="n" href="https://sparktg.com/terms-of-service" target="_blank" rel="noopener noreferrer">Terms Of Service</a> <span class="o">Our terms and conditions</span></li>
+          <li data-id="privacy" data-icon="lock"><a class="n" href="https://sparktg.com/privacy-policy" target="_blank" rel="noopener noreferrer">Privacy Policy</a> <span class="o">How we protect your data</span></li>
+          <li data-id="ai-agents" data-icon="spark"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">AI Agents</a> <span class="o">Explore SparkTG&#x27;s suite of AI agents for automation</span></li>
+          <li data-id="help-center" data-icon="help"><a class="n" href="https://sparktg.com/help-center" target="_blank" rel="noopener noreferrer">Help Center</a> <span class="o">Guides, troubleshooting and product how-tos</span></li>
+        </ul>
+      </li>
+          <li data-id="docs" data-icon="code" data-count="5"><span class="n">Documentation &amp; Tools</span>
+        <ul>
+          <li data-id="blog" data-icon="news"><a class="n" href="https://sparktg.com/blog" target="_blank" rel="noopener noreferrer">Blog</a> <span class="o">Latest news and articles</span></li>
+          <li data-id="apis" data-icon="code"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">SparkTG APIs</a> <span class="o">Complete API reference and developer guides</span></li>
+          <li data-id="zoho" data-icon="plug"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">Zoho Integration</a> <span class="o">Step-by-step guide to connect Zoho with SparkTG</span></li>
+          <li data-id="case-studies" data-icon="folder"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">Case Studies</a> <span class="o">Real-world success stories and client outcomes</span></li>
+          <li data-id="webinars" data-icon="video"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">Webinars</a> <span class="o">Live and recorded sessions on business communication</span></li>
+        </ul>
+      </li>
+        </ul>
+      </li>
+      <li data-id="ai-plans" data-icon="tag" data-chip="Pricing"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">AI Plans</a> <span class="o">Pricing and plans</span></li>
+      <li data-id="career" data-icon="briefcase"><a class="n" href="https://sparktg.com/" target="_blank" rel="noopener noreferrer">Career</a> <span class="o">Jobs at SparkTG</span></li>
+      <li data-id="contact" data-icon="phone"><a class="n" href="#talk">Contact</a> <span class="o">Talk to a person</span></li>
+    </ul>
+  </div>
+</nav>
+
 <footer class="dark">
   <div class="wrap">
     <div class="foot-top">
@@ -543,9 +722,9 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
     </div>
 
     <div class="cols">
-      <div><h3>Products</h3><a href="#products">Virtual contact centre</a><a href="#products">Call menu (IVR)</a><a href="#products">WhatsApp Business API</a><a href="#products">Voice and chat bots</a><a href="#products">Call masking</a><a href="#products">Click to call</a><a href="#products">Insights</a></div>
-      <div><h3>Industries</h3><a href="#who">Education</a><a href="#who">Healthcare</a><a href="#who">Travel and hospitality</a><a href="#who">E-commerce</a><a href="#who">Shopify and WhatsApp</a></div>
-      <div><h3>Company</h3><a href="#talk" id="plans">Plans (pricing is on sparktg.com)</a><a href="https://sparktg.com" rel="noopener">Resources</a><a href="https://sparktg.com" rel="noopener">Career</a><a href="#talk">Contact us</a><a href="#apps">Mobile apps</a></div>
+      <div><h3>Products</h3><a href="#/products/vcc">Virtual contact centre</a><a href="#/products/ivr">Call menu (IVR)</a><a href="#/products/whatsapp-api">WhatsApp Business API</a><a href="#/products/ai-voice-bot">Voice and chat bots</a><a href="#/products/call-masking">Call masking</a><a href="#/products/click-to-call">Click to call</a><a href="#/products/insights-info">Insights</a></div>
+      <div><h3>Industries</h3><a href="#/solutions/education">Education</a><a href="#/solutions/healthcare">Healthcare</a><a href="#/solutions/travel">Travel and hospitality</a><a href="#/solutions/ecommerce">E-commerce</a><a href="#/solutions/shopify-whatsapp">Shopify and WhatsApp</a></div>
+      <div><h3>Company</h3><a href="#/ai-plans" id="plans">Plans (pricing is on sparktg.com)</a><a href="#/resources">Resources</a><a href="#/career">Career</a><a href="#talk">Contact us</a><a href="#apps">Mobile apps</a></div>
       <div><h3>Follow</h3><a href="https://sparktg.com" rel="noopener">Facebook</a><a href="https://sparktg.com" rel="noopener">Twitter</a><a href="https://sparktg.com" rel="noopener">LinkedIn</a><a href="https://sparktg.com" rel="noopener">Instagram</a></div>
       <div><h3>Legal</h3><a href="https://sparktg.com" rel="noopener">Privacy Policy</a><a href="https://sparktg.com" rel="noopener">Terms</a>
         <label for="lang" style="position:absolute;left:-999px">Language</label>
@@ -558,6 +737,29 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
     </div>
   </div>
 </footer>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Site menu">
+  <div class="d-head">
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
+    <button class="d-close" id="dClose" type="button" aria-label="Close menu"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <div class="d-main">
+    <div class="d-scroll" id="dScroll">
+      <div class="chart" id="chart" role="tree" aria-label="SparkTG menu"></div>
+      <div class="otp"><h2>On this page</h2>
+        <ul><li><a href="#how">How it works</a></li><li><a href="#products">What you get</a></li><li><a href="#who">Who it's for</a></li><li><a href="#why">Why SparkTG</a></li><li><a href="#talk">Talk to us</a></li></ul>
+      </div>
+    </div>
+    <section class="page" id="dPage" inert aria-hidden="true" aria-label="Item details"></section>
+  </div>
+  <div class="d-foot">
+    <a class="ph" href="tel:1800123454647">1800-123-454647</a>
+    <button class="btn solid sm" type="button" data-demo>Get a call</button>
+    <label class="sr" for="dLang">Language</label>
+    <select id="dLang" class="lang"><option>English</option></select>
+  </div>
+</aside>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
@@ -588,15 +790,7 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
     wave.appendChild(bar);
   }
 
-  // mobile menu
   var btn = document.getElementById('menuBtn'), nav = document.getElementById('nav');
-  btn.addEventListener('click', function(){
-    var open = nav.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  nav.addEventListener('click', function(e){
-    if (e.target.tagName === 'A') { nav.classList.remove('open'); btn.setAttribute('aria-expanded','false'); }
-  });
 
   // highlight the current section in the nav
   var links = {};
@@ -621,8 +815,13 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
   function place(t){
     var r = t.getBoundingClientRect(), w = Math.min(300, window.innerWidth - 32);
     var left = Math.max(16, Math.min(r.left, window.innerWidth - w - 16));
-    pop.style.left = (left + window.scrollX) + 'px';
-    pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+    if (t.closest('.drawer')) {
+      var ph = pop.offsetHeight, top = r.bottom + 8;
+      if (top + ph > window.innerHeight - 8 && r.top - 8 - ph > 8) top = r.top - 8 - ph;
+      pop.style.position = 'fixed'; pop.style.left = left + 'px'; pop.style.top = top + 'px';
+    } else {
+      pop.style.position = 'absolute'; pop.style.left = (left + window.scrollX) + 'px'; pop.style.top = (r.bottom + window.scrollY + 8) + 'px';
+    }
   }
   document.addEventListener('click', function(e){
     var t = e.target.closest('.term');
@@ -635,7 +834,7 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
     pop.appendChild(s); pop.appendChild(document.createTextNode(t.getAttribute('data-def')));
     pop.hidden = false; place(t);
   });
-  document.addEventListener('keydown', function(e){ if (e.key === 'Escape') close(); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && !pop.hidden) { close(); e.stopImmediatePropagation(); } });
   window.addEventListener('resize', function(){ if (current) place(current); });
 
   // buttons and forms do nothing but say so
@@ -644,14 +843,335 @@ footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
     toast.textContent = msg; toast.classList.add('on');
     clearTimeout(tt); tt = setTimeout(function(){ toast.classList.remove('on'); }, 3200);
   }
-  document.querySelectorAll('[data-demo]').forEach(function(b){
-    b.addEventListener('click', function(){ say('Concept only: nothing was sent.'); });
+  document.addEventListener('click', function(e){
+    if (e.target.closest('[data-demo]')) say('Concept only: nothing was sent.');
   });
   ['callForm','newsForm'].forEach(function(id){
     document.getElementById(id).addEventListener('submit', function(e){
       e.preventDefault(); say('Concept only: nothing was sent or stored.');
     });
   });
+
+  // ---- flow-chart menu drawer -------------------------------------------------
+  // The tree is read from the plain <nav class="sitemap"> list at the bottom of the page, so the
+  // list is both the no-JS fallback and the source for the drawer. Page content lives in DATA.
+  var DATA = {"icons":{"menu":"<rect x=\"4\" y=\"4\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"14\" y=\"4\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"4\" y=\"14\" width=\"6\" height=\"6\" rx=\"1\"/><rect x=\"14\" y=\"14\" width=\"6\" height=\"6\" rx=\"1\"/>","box":"<path d=\"M4 8l8-4 8 4v8l-8 4-8-4z\"/><path d=\"M4 8l8 4 8-4M12 12v8\"/>","compass":"<circle cx=\"12\" cy=\"12\" r=\"8\"/><path d=\"M15 9l-2 5-4 1 2-5z\"/>","book":"<path d=\"M5 4h13a1 1 0 0 1 1 1v14H7a2 2 0 0 1-2-2z\"/><path d=\"M5 17a2 2 0 0 1 2-2h12\"/>","tag":"<path d=\"M3 12V4h8l9 9-8 8z\"/><circle cx=\"7.5\" cy=\"8.5\" r=\"1\"/>","briefcase":"<rect x=\"3\" y=\"8\" width=\"18\" height=\"12\" rx=\"2\"/><path d=\"M9 8V6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M3 13h18\"/>","phone":"<path d=\"M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a1 1 0 0 1-1 1A15 15 0 0 1 4 5a1 1 0 0 1 1-1z\"/>","phonewave":"<path d=\"M4 5h3.5l1.7 4.2-2.1 1.3a9 9 0 0 0 4.4 4.4l1.3-2.1L17 14.5V18a1 1 0 0 1-1 1A12 12 0 0 1 3 6a1 1 0 0 1 1-1z\"/><path d=\"M14 4a6 6 0 0 1 6 6M14 7.5a2.5 2.5 0 0 1 2.5 2.5\"/>","headset":"<path d=\"M4 14v-2a8 8 0 0 1 16 0v2\"/><rect x=\"3\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/><rect x=\"17\" y=\"14\" width=\"4\" height=\"6\" rx=\"1.5\"/>","mobile":"<rect x=\"7\" y=\"3\" width=\"10\" height=\"18\" rx=\"2\"/><path d=\"M11 18h2\"/>","list":"<path d=\"M8 6h12M8 12h12M8 18h12\"/><circle cx=\"4\" cy=\"6\" r=\"1\"/><circle cx=\"4\" cy=\"12\" r=\"1\"/><circle cx=\"4\" cy=\"18\" r=\"1\"/>","person":"<circle cx=\"12\" cy=\"8\" r=\"3.5\"/><path d=\"M5 20a7 7 0 0 1 14 0\"/>","mask":"<path d=\"M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z\"/><path d=\"M4 4l16 16\"/>","cursor":"<path d=\"M6 4l12 6-5 2-2 5z\"/>","chat":"<path d=\"M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4z\"/>","chatdots":"<path d=\"M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4z\"/><path d=\"M8.5 10h.01M12 10h.01M15.5 10h.01\"/>","bot":"<rect x=\"4\" y=\"8\" width=\"16\" height=\"11\" rx=\"3\"/><path d=\"M12 4v4\"/><circle cx=\"9\" cy=\"13\" r=\"1\"/><circle cx=\"15\" cy=\"13\" r=\"1\"/>","mic":"<rect x=\"9\" y=\"3\" width=\"6\" height=\"11\" rx=\"3\"/><path d=\"M5 11a7 7 0 0 0 14 0M12 18v3\"/>","layers":"<path d=\"M12 4l9 5-9 5-9-5z\"/><path d=\"M3 14l9 5 9-5\"/>","chart":"<path d=\"M5 20V10M12 20V4M19 20v-7\"/>","cap":"<path d=\"M3 9l9-5 9 5-9 5z\"/><path d=\"M7 11.5V16c0 1.5 2.5 3 5 3s5-1.5 5-3v-4.5M21 9v6\"/>","heart":"<path d=\"M12 20s-7-4.5-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.5-7 10-7 10z\"/>","plane":"<path d=\"M3 13l18-8-6 15-3-6z\"/><path d=\"M12 14l-1 5\"/>","cart":"<path d=\"M3 4h3l2 11h10l2-8H7\"/><circle cx=\"10\" cy=\"19\" r=\"1.2\"/><circle cx=\"17\" cy=\"19\" r=\"1.2\"/>","bag":"<path d=\"M6 8h12l1 12H5z\"/><path d=\"M9 8a3 3 0 0 1 6 0\"/>","megaphone":"<path d=\"M4 10v4h3l8 4V6L7 10z\"/><path d=\"M18 9a4 4 0 0 1 0 6\"/>","lifebuoy":"<circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/><path d=\"M6.3 6.3l3.5 3.5M14.2 14.2l3.5 3.5M17.7 6.3l-3.5 3.5M9.8 14.2l-3.5 3.5\"/>","building":"<rect x=\"5\" y=\"3\" width=\"10\" height=\"18\" rx=\"1\"/><path d=\"M15 9h4v12h-4M8 7h4M8 11h4M8 15h4\"/>","target":"<circle cx=\"12\" cy=\"12\" r=\"8\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/><circle cx=\"12\" cy=\"12\" r=\".6\"/>","help":"<circle cx=\"12\" cy=\"12\" r=\"8\"/><path d=\"M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17v.2\"/>","doc":"<path d=\"M7 3h7l4 4v14H7z\"/><path d=\"M14 3v4h4M10 12h5M10 16h5\"/>","lock":"<rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/>","news":"<path d=\"M5 5h12v14H7a2 2 0 0 1-2-2z\"/><path d=\"M17 9h2v8a2 2 0 0 1-2 2M8 9h6M8 13h6\"/>","code":"<path d=\"M9 8l-4 4 4 4M15 8l4 4-4 4\"/>","plug":"<path d=\"M9 4v5M15 4v5M7 9h10v3a5 5 0 0 1-10 0zM12 17v3\"/>","video":"<rect x=\"3\" y=\"6\" width=\"13\" height=\"12\" rx=\"2\"/><path d=\"M16 10l5-3v10l-5-3\"/>","folder":"<path d=\"M4 6a1 1 0 0 1 1-1h5l2 2h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z\"/>","spark":"<path d=\"M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z\"/>","ext":"<path d=\"M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5\"/>","mail":"<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 7l9 6 9-6\"/>","user":"<circle cx=\"12\" cy=\"8\" r=\"3.5\"/><path d=\"M5 20a7 7 0 0 1 14 0\"/>","shield":"<path d=\"M12 3l8 3v6c0 4.5-3.5 7.5-8 9-4.5-1.5-8-4.5-8-9V6z\"/>"},"defs":{"ivr":"Interactive voice response: the automated menu a caller hears first, such as 'press 1 for billing'.","crm":"Customer relationship management software: where a business keeps its customer and lead records, such as HubSpot or Zoho.","api":"A way for two software tools to talk to each other, so data moves between them without copying by hand.","rest":"A common style of API that works over ordinary web requests, which most developers already know.","sim":"The small card in a phone that gives it a number and a mobile connection.","waba":"WhatsApp Business API: WhatsApp's official route for companies to message customers at scale.","vcc":"A call centre that runs in the cloud, so agents work from a browser instead of an office phone system.","dialer":"Software that dials numbers for agents. A predictive dialer starts several calls at once so agents wait less between calls.","whisper":"A supervisor speaks to the agent during a call without the customer hearing.","pooling":"Keeping a set of temporary numbers and handing them out as needed, so many conversations can be masked at once.","hipaa":"A US law about keeping patient information private. Whether a service meets it depends on how it is set up and run.","gdpr":"The European Union's data protection law.","trai":"The Telecom Regulatory Authority of India, which sets rules for phone services in India.","omni":"Handling calls, chat and messages in one place, so a customer's history follows them from channel to channel.","erp":"Enterprise resource planning software: the system a company uses to run things like orders, stock and accounts.","abtest":"Sending two versions of a message to small groups to see which one works better.","optin":"A customer's permission to be messaged.","template":"A message format that WhatsApp has approved in advance, used to start a conversation with a customer.","ticketing":"Software that turns each customer problem into a ticket that someone tracks until it's solved.","skill":"Sending a call to the agent who has the right skills, for example a language or a topic.","bpo":"Business process outsourcing: companies that run other firms' customer calls and back-office work.","sentiment":"Software that judges whether a customer sounded happy, neutral or upset."},"details":{"vcc":{"does":"A cloud contact centre. Your team handles incoming and outgoing calls from the office, from home or a mix of both, with no phone hardware to install. SparkTG calls it a {vcc|virtual contact centre}.","keys":["Smart {ivr|call menu} and call routing","Call recording","Agent dashboard that runs in a browser","Live monitoring: listen in, {whisper|whisper} to the agent or join the call","Automatic and {dialer|predictive dialers}","{crm|CRM} and {ticketing|ticketing} links, live analytics and {api|APIs}"],"who":"Sales and support teams, remote and hybrid teams, and outbound calling campaigns.","flow":[["Customer","Call menu","Agent","Saved in CRM"],2],"claims":["Activation in about 24 hours","Pay-per-use pricing","Agents can be scaled up or down"],"pricing":"Custom: contact SparkTG. The site describes it as pay-per-use.","path":"/products/vcc-solution"},"suno":{"does":"An Android app that turns an agent's own phone and business {sim|SIM} into a tracked calling tool. Calls are logged automatically, so managers can see what happened.","keys":["Calls logged automatically","Post-call notes and outcome tags such as Interested, Callback and Not reachable","Managers can assign leads to agents","WhatsApp Business inbox with message templates","Dashboards for managers"],"who":"Field sales teams, tele-callers and remote support teams.","flow":[["Lead assigned","Call on phone","Notes and tag","Manager view"],1],"claims":["Works on Android 8.0 or newer","Free to install","A web dashboard with click-to-call is listed as \"coming soon\""],"pricing":"Free to install, as stated on sparktg.com.","path":"/products/suno-calling-app"},"agent-app":{"does":"A contact-centre seat on the agent's phone. Agents take queue calls and make outbound calls with the customer's record in front of them.","keys":["Queue and outbound calls","Mute, hold and transfer","Customer record shown during calls","WhatsApp conversations, when enabled","Notes and callbacks","Live agent board for supervisors, plus call and performance reports"],"who":"Remote and hybrid service teams, inside sales and supervisors.","flow":[["Customer","Queue","Agent's phone","Saved in CRM"],2],"claims":["Works on iOS 16 or newer and Android 7.0 or newer","WhatsApp conversations are available when enabled"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/products/sparktg-agent-app"},"ivr":{"does":"The automated menu that answers calls, listens to keypad or spoken answers and sends each caller to the right place. ({ivr|IVR} stands for interactive voice response.)","keys":["Multi-level menus","Virtual IVR numbers","Custom call flows","Call analytics","Handles calls round the clock, with faster routing"],"who":"Businesses that get many calls and want them sorted before a person picks up.","flow":[["Customer","Call menu","Assistant or agent","Saved in CRM"],1],"claims":["Setup typically takes 1 to 2 business days"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/features/ivr-solution-provider"},"virtual-receptionist":{"does":"Answers, routes and logs calls around the clock, without a staff receptionist.","keys":["Answers calls 24/7","Sends callers to the right person","Logs calls into the {crm|CRM}","Fewer missed calls"],"who":"Small businesses that can't keep someone on the phone all day.","flow":[["Customer","Virtual receptionist","Right person","Saved in CRM"],1],"claims":["Setup typically takes 1 to 2 business days"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/features/virtual-receptionist"},"toll-free":{"does":"1800 numbers that let customers call you for free, with cloud call routing behind them.","keys":["1800 toll-free numbers","Cloud call routing","Available 24/7"],"who":"Businesses that want customers to call without paying.","flow":[["Customer","Toll-free number","Call routing","Your team"],1],"claims":["Setup typically takes 1 to 2 business days"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/features/toll-free-number"},"call-masking":{"does":"Connects two people by phone without showing either person's real number. A temporary virtual number is used and expires after the session.","keys":["Temporary virtual numbers","Call recording","Analytics and {api|APIs}","{pooling|Number pooling}"],"who":"Used by ride-hailing, delivery, logistics, e-commerce, healthcare and {bpo|BPO} firms, according to the site.","flow":[["Customer","Temporary number","Agent or rider"],1],"claims":["Supports {gdpr|GDPR} and {trai|TRAI} rules"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/products/call-masking"},"click-to-call":{"does":"A call button on your website or mobile app. A visitor taps it and reaches sales or support without dialling.","keys":["One-tap call button","Works on websites and mobile apps","Connects to sales or support"],"who":"Businesses whose website visitors want to talk to someone.","flow":[["Visitor","Call button","Agent","Saved in CRM"],1],"claims":["Setup typically takes 1 to 2 business days"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/features/click2call"},"ai-voice-bot":{"does":"Answers customer calls and handles routine questions in a natural two-way conversation, in Hindi, English and regional languages.","keys":["Natural two-way voice conversations","Hindi, English and regional languages","Live analytics","Connects to {crm|CRM}, WhatsApp, {ivr|IVR} and {erp|ERP}"],"who":"Healthcare, real estate, e-commerce, finance and travel businesses.","flow":[["Customer","Call menu","Voice bot","Saved in CRM"],2],"pricing":"Custom: contact SparkTG.","path":"/products/ai-voice-bot"},"ai-chat-bot":{"does":"Answers messages on WhatsApp, websites and mobile apps. It works out what the customer means, not just which keywords they used, and it works in several languages.","keys":["Understands what the customer means","Several languages","Analytics","Links to CRMs and {ticketing|ticketing}"],"who":"Businesses that get many chat messages.","flow":[["Customer message","Chat bot","Agent if needed","Saved in CRM"],1],"pricing":"Custom: contact SparkTG.","path":"/products/ai-chat-bot"},"ai-waba-bot":{"does":"A chatbot that runs on the official {waba|WhatsApp Business API}.","keys":["FAQs and complaints","Order tracking","Appointment booking","Product suggestions and cart reminders"],"who":"Businesses that talk to customers on WhatsApp.","flow":[["Customer on WhatsApp","WABA bot","Agent if needed","Saved in CRM"],1],"pricing":"Not stated in this summary. See sparktg.com.","path":"/products/ai-waba-bot"},"ai-more":{"kind":"ext"},"whatsapp-api":{"does":"SparkTG presents itself as a Meta-verified WhatsApp Business Solution Provider. You can send replies, {template|template messages} and campaigns to customers on WhatsApp.","keys":["Automated replies","Pre-approved {template|template messages}","{optin|Opt-in} campaigns with segments and {abtest|A/B tests}","Hand-off to a live agent","10+ Indian languages","Links to Salesforce, HubSpot, Zoho, Pipedrive, Zendesk, Freshdesk, Shopify, WooCommerce and Magento, plus {rest|REST} {api|APIs}"],"who":"Businesses that send order updates, reminders or campaigns on WhatsApp.","flow":[["Your system","WhatsApp API","Customer's WhatsApp","Live agent"],1],"claims":["Meta-verified WhatsApp Business Solution Provider","Onboarding takes 3 to 5 business days"],"pricing":"Meta's per-conversation fees plus SparkTG's platform fees. Custom: contact SparkTG.","path":"/products/whatsapp-business-api-provider-india"},"waba-more":{"kind":"ext"},"insights-info":{"kind":"info","does":"The homepage describes Interaction Insights as analytics, {sentiment|sentiment analysis}, call scoring and quality checks.","note":"The pages for this group were not read for this concept. Details are on sparktg.com."},"insights-more":{"kind":"ext"},"education":{"does":"Schools and universities juggle enquiries from students and parents on many channels, manual admissions, several campuses and limited updates for parents. SparkTG pitches call menus, WhatsApp chatbots and a cloud contact centre run from one dashboard.","keys":["{ivr|IVR} for enquiries","WhatsApp chatbots","Virtual contact centre","Cloud telephony","One dashboard for everything"],"who":"Schools, universities and institutions with more than one campus.","flow":[["Parent or student","Call menu or WhatsApp","Admissions desk","Saved in CRM"],1],"claims":["cs:Delhi Public School: parent engagement up 65%","cs:Bangalore University: ₹32 lakh lower administrative costs a year"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/education-communication-solution"},"healthcare":{"does":"Keeps patients able to reach a provider at any hour, with appointment reminders and calls sent to the right desk.","keys":["{ivr|IVR} auto-attendant","Virtual contact centre","Call masking","WhatsApp chatbot","Automated appointment reminders","Real-time call transfers"],"who":"Hospitals, clinics and medical groups.","flow":[["Patient","Call menu","Right desk","Saved in CRM"],1],"claims":["Open to patients 24x7","The page says it helps maintain {hipaa|HIPAA} compliance. It shows no certificates","cs:Apollo Hospitals: no-shows down 48% with automated reminders","cs:Wellness Medical Group: ₹18 lakh saved a year"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/healthcare-communication-solution"},"travel":{"does":"One number for all calls, with guests greeted by their details and passed to an expert in real time, even in busy seasons.","keys":["One number for every call","Callers greeted with their details","Real-time transfer to an expert","Support that holds up through seasonal peaks"],"who":"Hotels, airlines and travel companies.","flow":[["Guest","One number","Expert","Saved in CRM"],2],"claims":["cs:A luxury hotel chain: direct bookings up 32%","cs:A major airline: 89% customer satisfaction during disruptions"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/travel-hospitality"},"ecommerce":{"does":"Voice, call menus and CRM together, with {skill|skill-based routing} so each call reaches the right agent. Customers get help with orders, returns and payments around the clock.","keys":["Voice, {ivr|IVR} and {crm|CRM} together","{skill|Skill-based routing}","Order, return and payment help 24/7"],"who":"Online stores and marketplaces.","flow":[["Shopper","Call menu","Right agent","Saved in CRM"],2],"claims":["cs:A fashion retailer: cart abandonment down 28%","cs:An electronics marketplace: 95% satisfaction and support costs down 35%"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/e-commerce-communication-solution"},"shopify-whatsapp":{"does":"Connects a Shopify store to the {waba|WhatsApp Business API}. Setup is three steps: connect your store, choose the messages, go live.","keys":["17+ automated message scenarios","Order confirmed, shipped and out for delivery","Cash-on-delivery confirmation and delivery failed","Refund processed","Abandoned cart, back in stock and price drop","A person can take over with the context kept"],"who":"Shopify store owners who want to message shoppers on WhatsApp.","flow":[["Shopify store","WhatsApp API","Shopper","Live agent"],1],"claims":["17+ automated scenarios"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/shopify-whatsapp-integration"},"sales-marketing":{"does":"Aimed at slow replies to prospects, weak coordination between sales and marketing, generic outreach and weak follow-up.","keys":["Faster replies, even after hours","Automated follow-ups","Analytics"],"who":"Sales and marketing teams.","flow":[["Prospect","Fast reply","Follow-up","Saved in CRM"],2],"claims":["cs:A real estate developer: lead conversion up 38%","cs:A B2B technology firm: sales cycle 40% shorter"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/sales-marketing"},"customer-service":{"does":"Aimed at slow resolution, uneven quality between channels and high enquiry volumes. One {omni|omnichannel} platform plus automation and better tools for agents.","keys":["One {omni|omnichannel} platform","Automation for routine enquiries","Better tools for agents"],"who":"Support teams that handle many enquiries.","flow":[["Customer","Any channel","Agent or bot","Saved in CRM"],2],"claims":["cs:An e-commerce leader: 92% satisfaction and 35% lower costs","cs:A telecom provider: first-contact resolution up 42%"],"pricing":"Not stated in this summary. See sparktg.com.","path":"/solutions/customer-service"},"account-detail":{"kind":"unverified","note":"Details are on sparktg.com."},"telephony-apps":{"does":"A side-by-side look at SparkTG's two mobile apps.","tableTitle":"Suno and SparkTG Agent","table":{"head":["","Suno","SparkTG Agent"],"rows":[["Works on","Android 8.0 or newer","Android 7.0 or newer, and iOS 16 or newer"],["Built for","Field sales, distributed support and remote teams","Contact-centre agents and supervisors"],["Main things","Call capture, CRM and lead follow-up, WhatsApp workspace, reports","Queue and outbound calls, CRM context, WhatsApp and callbacks, agent and supervisor reports, live agent board"]]},"path":"/products/telephony-app"},"terms":{"kind":"link","note":"The full text is on sparktg.com.","path":"/terms-of-service"},"privacy":{"kind":"link","note":"The full text is on sparktg.com.","path":"/privacy-policy"},"ai-agents":{"kind":"unverified","note":"Details are on sparktg.com."},"help-center":{"does":"SparkTG's help centre has guides, troubleshooting and how-tos for its products.","keysTitle":"Help categories","keys":["{ivr|IVR} and call flows","Cloud telephony","WhatsApp Business API","AI voice and chat bots","Contact centre","Integrations and {api|API}"],"who":"SparkTG customers who need a how-to or a fix.","claims":["Support runs Monday to Saturday, 9 AM to 7 PM IST","Average reply time is under 4 hours","Popular articles include setting up business hours and holiday routing, and fixing call forwarding failures","The page showed only 9 articles in total when it was read"],"path":"/help-center"},"blog":{"does":"News and articles about business communication.","keysTitle":"Categories include","keys":["WhatsApp Messaging","Cloud Telephony & Communication","AI & Automation","Industry Insights","Healthcare","Business Growth and Customer Experience"],"claims":["48 articles across 8 pages"],"path":"/blog"},"apis":{"kind":"unverified","note":"Details are on sparktg.com."},"zoho":{"kind":"unverified","note":"Details are on sparktg.com."},"case-studies":{"kind":"list","does":"The case-study index page was not read for this concept. These are the headlines SparkTG lists on its solution pages.","claims":["cs:Delhi Public School: parent engagement up 65%","cs:Bangalore University: ₹32 lakh lower administrative costs a year","cs:Apollo Hospitals: no-shows down 48% with automated reminders","cs:Wellness Medical Group: ₹18 lakh saved a year","cs:A luxury hotel chain: direct bookings up 32%","cs:A major airline: 89% customer satisfaction during disruptions","cs:A fashion retailer: cart abandonment down 28%","cs:An electronics marketplace: 95% satisfaction and support costs down 35%","cs:A real estate developer: lead conversion up 38%","cs:A B2B technology firm: sales cycle 40% shorter","cs:An e-commerce leader: 92% satisfaction and 35% lower costs","cs:A telecom provider: first-contact resolution up 42%"],"note":"Figures are headlines only. The full case studies were not read, and the numbers are not checked."},"webinars":{"kind":"unverified","note":"Details are on sparktg.com."},"ai-plans":{"kind":"plain","note":"SparkTG's pricing is on its own site. This concept shows no prices."},"career":{"kind":"plain","note":"Open roles are listed on sparktg.com."},"contact":{"kind":"action"}}};
+  var NS = 'http://www.w3.org/2000/svg', AMBER = '#FFB020';
+  var drawer = document.getElementById('drawer'), scrim = document.getElementById('scrim');
+  var chartEl = document.getElementById('chart'), scroller = document.getElementById('dScroll');
+  var pageEl = document.getElementById('dPage'), crumbsEl = document.getElementById('crumbs');
+  var ROOT = { id: 'menu', name: 'Menu', level: 0, parent: null, children: [] }, byId = {};
+  var state = { path: [], page: null }, isOpen = false, opener = null, pendingFocus = null, pairs = [];
+  var small = window.matchMedia('(max-width: 600px)');
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+  function icon(n){ return '<svg viewBox="0 0 24 24" aria-hidden="true">' + (DATA.icons[n] || DATA.icons.menu) + '</svg>'; }
+  function rich(s){
+    return esc(s).replace(/\{([a-z0-9-]+)(?:\|([^}]+))?\}/g, function(m, k, l){
+      var t = DATA.defs[k]; if (!t) return l || k;
+      return '<button class="term" type="button" aria-expanded="false" data-def="' + esc(t) + '">' + (l || k) + '</button>';
+    });
+  }
+
+  function read(ul, parent, level){
+    Array.prototype.forEach.call(ul.children, function(li){
+      var nEl = li.querySelector(':scope > .n'), oEl = li.querySelector(':scope > .o'), sub = li.querySelector(':scope > ul');
+      var n = { id: li.getAttribute('data-id'), icon: li.getAttribute('data-icon'), count: li.getAttribute('data-count') || '',
+        chip: li.getAttribute('data-chip') || '', name: nEl.textContent, one: oEl ? oEl.textContent : '',
+        href: nEl.href || 'https://sparktg.com/', level: level, parent: parent, children: [] };
+      parent.children.push(n); byId[n.id] = n;
+      if (sub) read(sub, n, level + 1);
+    });
+  }
+  read(document.querySelector('.sitemap > .wrap > ul'), ROOT, 1);
+
+  function D(n){ return DATA.details[n.id] || {}; }
+  function chain(n){ var c = []; while (n && n !== ROOT) { c.unshift(n); n = n.parent; } return c; }
+  function kindOf(n){ return n.children.length ? 'branch' : (D(n).kind || 'full'); }
+
+  // ---- routing: the URL hash is the single source of truth ----
+  function routeFor(path, page){
+    if (page) { var c = chain(page); return c.length > 1 ? c[0].id + '/' + page.id : page.id; }
+    if (path.length) return path.length > 1 ? path[0].id + '/' + path[path.length - 1].id : path[0].id;
+    return 'menu';
+  }
+  function go(path, page, focusId){
+    pendingFocus = focusId || null;
+    var h = '#/' + routeFor(path, page);
+    if (location.hash === h) applyRoute(); else location.hash = h;
+  }
+  function applyRoute(){
+    var h = location.hash;
+    if (h.indexOf('#/') !== 0) { if (isOpen) hideDrawer(); return; }
+    var parts = h.slice(2).split('/').filter(Boolean), t = null;
+    if (parts.length && parts[0] !== 'menu') {
+      t = byId[parts[parts.length - 1]];
+      if (!t || chain(t)[0].id !== parts[0]) t = byId[parts[0]] || null;
+    }
+    if (t && t.id === 'contact') {
+      hideDrawer();
+      history.replaceState(null, '', location.pathname + location.search + '#talk');
+      var tk = document.getElementById('talk'); if (tk) tk.scrollIntoView();
+      return;
+    }
+    var old = state, next;
+    if (!t) next = { path: [], page: null };
+    else if (!t.children.length) next = { path: chain(t).slice(0, -1), page: t };
+    else next = { path: chain(t), page: null };
+    var anim = null;
+    if (isOpen && !old.page && !next.page && next.path.length > old.path.length) anim = next.path[next.path.length - 1];
+    state = next; showDrawer(); renderAll(anim);
+  }
+  function showDrawer(){
+    if (isOpen) return;
+    opener = document.activeElement; isOpen = true;
+    drawer.classList.add('open'); scrim.classList.add('on'); btn.setAttribute('aria-expanded', 'true');
+  }
+  function hideDrawer(){
+    if (!isOpen) return;
+    isOpen = false; close();
+    drawer.classList.remove('open'); scrim.classList.remove('on'); btn.setAttribute('aria-expanded', 'false');
+    if (opener && opener.focus) opener.focus();
+  }
+  function userClose(){
+    hideDrawer();
+    if (location.hash.indexOf('#/') === 0) history.pushState(null, '', location.pathname + location.search);
+  }
+
+  // ---- rendering ----
+  function renderAll(anim){
+    buildCrumbs(); buildChart(anim);
+    var pg = !!state.page;
+    scroller.inert = pg;
+    if (pg) buildPage(state.page);
+    pageEl.inert = !pg; pageEl.classList.toggle('on', pg); pageEl.setAttribute('aria-hidden', pg ? 'false' : 'true');
+    if (pg) { var t = document.getElementById('pgTitle'); if (t) t.focus({ preventScroll: true }); }
+    else focusNode(pendingFocus);
+    pendingFocus = null;
+  }
+
+  function buildCrumbs(){
+    var items = [{ label: 'Menu', path: [] }];
+    state.path.forEach(function(n, i){ items.push({ label: n.name, path: state.path.slice(0, i + 1) }); });
+    if (state.page) items.push({ label: state.page.name, current: true });
+    items[items.length - 1].current = true;
+    crumbsEl.textContent = '';
+    items.forEach(function(it, i){
+      if (i) { var s = document.createElement('span'); s.className = 'sep'; s.setAttribute('aria-hidden', 'true'); s.textContent = '›'; crumbsEl.appendChild(s); }
+      if (it.current) {
+        var c = document.createElement('span'); c.className = 'cur'; c.setAttribute('aria-current', 'page'); c.textContent = it.label; crumbsEl.appendChild(c);
+      } else {
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'crumb'; b.textContent = it.label;
+        b.addEventListener('click', function(){ go(it.path, null); });
+        crumbsEl.appendChild(b);
+      }
+    });
+  }
+
+  function buildChart(anim){
+    chartEl.textContent = ''; pairs = [];
+    var svg = document.createElementNS(NS, 'svg'); svg.setAttribute('class', 'conn'); svg.setAttribute('aria-hidden', 'true');
+    chartEl.appendChild(svg);
+    var root = document.createElement('div'); root.className = 'node root';
+    root.innerHTML = '<span class="ic">' + icon('menu') + '</span><span class="lab">Menu</span>';
+    chartEl.appendChild(root);
+    chartEl.appendChild(group(ROOT, root, 0, anim));
+    layout();
+  }
+  function group(parent, parentEl, depth, anim){
+    var g = document.createElement('div'); g.className = 'kids'; g.setAttribute('role', 'group');
+    var sel = state.path[depth], isNew = anim === parent, idx = 0, list = parent.children, others = [];
+    list.forEach(function(c, i){
+      if (sel && c !== sel) { others.push(c); return; }
+      var e = nodeEl(c, i + 1, list.length, isNew, idx++); g.appendChild(e);
+      pairs.push({ p: parentEl, c: e, active: c === sel, anim: isNew });
+      if (c === sel && c.children.length) g.appendChild(group(c, e, depth + 1, anim));
+    });
+    if (others.length) g.appendChild(foldEl(others, depth + 1));
+    return g;
+  }
+  function nodeEl(n, pos, size, isNew, idx){
+    var e = document.createElement('div'), kind = kindOf(n);
+    e.className = 'node'; e.setAttribute('role', 'treeitem'); e.setAttribute('tabindex', '-1'); e.setAttribute('data-id', n.id);
+    e.setAttribute('aria-level', n.level); e.setAttribute('aria-posinset', pos); e.setAttribute('aria-setsize', size);
+    if (n.children.length) e.setAttribute('aria-expanded', state.path.indexOf(n) > -1 ? 'true' : 'false');
+    if (kind === 'ext') e.setAttribute('aria-label', n.name + ', opens sparktg.com in a new tab');
+    e.innerHTML = '<span class="ic">' + icon(kind === 'ext' ? 'ext' : n.icon) + '</span><span class="lab">' + esc(n.name) + '</span>' +
+      (n.chip ? '<span class="chip">' + esc(n.chip) + '</span>' : '') +
+      (n.count && n.children.length ? '<span class="cnt">' + esc(n.count) + '</span>' : '') +
+      (n.children.length ? '<svg class="chev" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>' : '');
+    if (isNew && !reduce) { e.classList.add('enter'); e.style.animationDelay = (idx * 30) + 'ms'; }
+    return e;
+  }
+  function foldEl(list, level){
+    var names = list.map(function(n){ return n.name; }).join(', '), e = document.createElement('div');
+    e.className = 'node fold'; e.setAttribute('role', 'treeitem'); e.setAttribute('tabindex', '-1'); e.setAttribute('data-fold', '1');
+    e.setAttribute('aria-level', level); e.setAttribute('aria-expanded', 'false'); e.setAttribute('aria-label', 'Show the other options: ' + names);
+    e.innerHTML = '<span class="lab">Also: ' + esc(names) + '</span>';
+    return e;
+  }
+
+  // elbow connectors, drawn over the nested list (decorative)
+  function layout(){
+    var svg = chartEl.querySelector('svg.conn'); if (!svg) return;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    var cr = chartEl.getBoundingClientRect(), sp = small.matches ? 8 : 24, r = small.matches ? 6 : 8;
+    svg.setAttribute('width', chartEl.scrollWidth); svg.setAttribute('height', chartEl.scrollHeight);
+    var ordered = pairs.filter(function(p){ return !p.active; }).concat(pairs.filter(function(p){ return p.active; })), drawn = [];
+    ordered.forEach(function(p){
+      var a = p.p.getBoundingClientRect(), b = p.c.getBoundingClientRect();
+      var sx = a.left - cr.left + sp, py = a.bottom - cr.top, cy = b.top - cr.top + b.height / 2, cx = b.left - cr.left;
+      var color = p.active ? AMBER : '#4F5F78', w = p.active ? 2 : 1;
+      var path = document.createElementNS(NS, 'path');
+      path.setAttribute('d', 'M' + sx + ' ' + py + ' V' + (cy - r) + ' Q' + sx + ' ' + cy + ' ' + (sx + r) + ' ' + cy + ' H' + cx);
+      path.setAttribute('fill', 'none'); path.setAttribute('stroke', color); path.setAttribute('stroke-width', w); path.setAttribute('stroke-linecap', 'round');
+      svg.appendChild(path);
+      var dot = document.createElementNS(NS, 'circle');
+      dot.setAttribute('cx', cx); dot.setAttribute('cy', cy); dot.setAttribute('r', 3);
+      dot.setAttribute('fill', p.active ? AMBER : '#FBFCFD'); dot.setAttribute('stroke', color); dot.setAttribute('stroke-width', 1.5);
+      svg.appendChild(dot);
+      if (p.anim && !reduce) {
+        var len = path.getTotalLength();
+        path.style.strokeDasharray = len; path.style.strokeDashoffset = len; dot.style.opacity = 0;
+        drawn.push([path, dot]);
+      }
+    });
+    if (drawn.length) requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      drawn.forEach(function(d){
+        d[0].style.transition = 'stroke-dashoffset .2s ease'; d[0].style.strokeDashoffset = 0;
+        d[1].style.transition = 'opacity .2s ease .15s'; d[1].style.opacity = 1;
+      });
+    }); });
+  }
+  window.addEventListener('resize', function(){ if (isOpen) layout(); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ if (isOpen) layout(); });
+
+  // ---- tree behaviour: click and keyboard (WAI-ARIA tree pattern) ----
+  function nodeOf(e){ return byId[e.getAttribute('data-id')]; }
+  function setTab(el){
+    chartEl.querySelectorAll('[role=treeitem]').forEach(function(x){ x.setAttribute('tabindex', '-1'); });
+    el.setAttribute('tabindex', '0');
+  }
+  function focusNode(id){
+    var all = chartEl.querySelectorAll('[role=treeitem]'), t = id && chartEl.querySelector('[data-id="' + id + '"]');
+    if (!t && state.path.length) t = chartEl.querySelector('[data-id="' + state.path[state.path.length - 1].id + '"]');
+    if (!t) t = all[0];
+    if (t) { setTab(t); t.focus({ preventScroll: false }); }
+  }
+  function activate(e, viaKey){
+    if (e.hasAttribute('data-fold')) {
+      var lv = +e.getAttribute('aria-level'), sel = state.path[lv - 1];
+      go(state.path.slice(0, lv - 1), null, sel && sel.id); return;
+    }
+    var n = nodeOf(e); if (!n) return;
+    if (n.children.length) {
+      var i = state.path.indexOf(n);
+      if (i > -1) go(state.path.slice(0, i), null, n.id);
+      else go(chain(n), null, viaKey === 'child' ? n.children[0].id : n.id);
+      return;
+    }
+    if (kindOf(n) === 'ext') { window.open(n.href, '_blank', 'noopener,noreferrer'); return; }
+    go(chain(n).slice(0, -1), n);
+  }
+  chartEl.addEventListener('click', function(ev){ var e = ev.target.closest('[role=treeitem]'); if (e) activate(e); });
+  chartEl.addEventListener('keydown', function(ev){
+    var e = ev.target.closest('[role=treeitem]'); if (!e) return;
+    var items = [].slice.call(chartEl.querySelectorAll('[role=treeitem]')), i = items.indexOf(e), k = ev.key, t = null, n = nodeOf(e);
+    if (k === 'ArrowDown') t = items[i + 1];
+    else if (k === 'ArrowUp') t = items[i - 1];
+    else if (k === 'Home') t = items[0];
+    else if (k === 'End') t = items[items.length - 1];
+    else if (k === 'ArrowRight') {
+      if (n && n.children.length) { if (state.path.indexOf(n) > -1) t = items[i + 1]; else { ev.preventDefault(); activate(e, 'child'); return; } }
+      else { ev.preventDefault(); activate(e); return; }
+    } else if (k === 'ArrowLeft') {
+      if (n && n.children.length && state.path.indexOf(n) > -1) { ev.preventDefault(); activate(e); return; }
+      if (n && n.parent && n.parent !== ROOT) t = chartEl.querySelector('[data-id="' + n.parent.id + '"]');
+    } else if (k === 'Enter' || k === ' ') { ev.preventDefault(); activate(e); return; }
+    else return;
+    ev.preventDefault();
+    if (t) { setTab(t); t.focus(); }
+  });
+
+  // ---- item pages ----
+  function sec(title, body){ return '<div class="pg"><h3>' + esc(title) + '</h3>' + body + '</div>'; }
+  function list(a){ return '<ul class="checks">' + a.map(function(x){ return '<li>' + rich(x) + '</li>'; }).join('') + '</ul>'; }
+  function claims(a){
+    return '<ul class="checks">' + a.map(function(x){
+      var cs = x.indexOf('cs:') === 0;
+      return '<li>' + rich(cs ? x.slice(3) : x) + ' <span class="tag">(' + (cs ? 'headline as listed by SparkTG' : 'as stated on sparktg.com') + ')</span></li>';
+    }).join('') + '</ul>';
+  }
+  function tableHtml(t){
+    return '<div class="tbl"><table><thead><tr>' + t.head.map(function(h){ return '<th scope="col">' + esc(h) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      t.rows.map(function(r){ return '<tr><th scope="row">' + esc(r[0]) + '</th>' + r.slice(1).map(function(c){ return '<td>' + esc(c) + '</td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+  }
+  function flowSvg(f){
+    var steps = f[0], hl = f[1], n = steps.length, W = 440, gap = 24, bw = (W - gap * (n - 1)) / n, s;
+    s = '<svg viewBox="0 0 440 64" role="img" aria-label="' + esc('Where it fits: ' + steps.join(', then ')) + '">';
+    steps.forEach(function(label, i){
+      var x = i * (bw + gap), on = i === hl, lines = [label];
+      if (label.length > 11 && label.indexOf(' ') > -1) {
+        var mid = Math.round(label.length / 2), best = -1, bd = 99;
+        for (var j = 0; j < label.length; j++) if (label[j] === ' ' && Math.abs(j - mid) < bd) { bd = Math.abs(j - mid); best = j; }
+        lines = [label.slice(0, best), label.slice(best + 1)];
+      }
+      if (i) s += '<path d="M' + (x - gap + 3) + ' 32 H' + (x - 3) + '" stroke="#4F5F78" stroke-width="1.4" stroke-linecap="round" fill="none"/><circle cx="' + (x - 3) + '" cy="32" r="2.2" fill="#4F5F78"/>';
+      s += '<rect x="' + x + '" y="6" width="' + bw + '" height="52" rx="6" fill="#FBFCFD" stroke="' + (on ? AMBER : '#D3DAE4') + '" stroke-width="' + (on ? 2.5 : 1) + '"/>';
+      lines.forEach(function(l, li){
+        var y = lines.length === 1 ? 36 : 28 + li * 15;
+        s += '<text x="' + (x + bw / 2) + '" y="' + y + '" text-anchor="middle" font-size="12.5" fill="#10264A" font-family="Familjen Grotesk, system-ui, sans-serif"' + (on ? ' font-weight="600"' : '') + '>' + esc(l) + '</text>';
+      });
+    });
+    return '<div class="flow">' + s + '</svg></div>';
+  }
+  function buildPage(n){
+    var d = D(n), h = '';
+    h += '<button class="btn sm back" type="button" id="pgBack">Back</button>';
+    h += '<h2 id="pgTitle" tabindex="-1">' + esc(n.name) + '</h2><p class="one">' + esc(n.one) + '</p>';
+    if (d.does) h += sec('What it does', '<p>' + rich(d.does) + '</p>');
+    if (d.table) h += sec(d.tableTitle || 'At a glance', tableHtml(d.table));
+    if (d.keys) h += sec(d.keysTitle || 'Key things it does', list(d.keys));
+    if (d.who) h += sec("Who it's for", '<p>' + rich(d.who) + '</p>');
+    if (d.flow) h += sec('How it fits', flowSvg(d.flow));
+    if (d.claims) h += sec('What the site says', claims(d.claims));
+    if (d.pricing) h += sec('Pricing', '<p>' + rich(d.pricing) + '</p>');
+    if (d.note) h += '<p class="note">' + rich(d.note) + '</p>';
+    h += '<div class="cta"><button class="btn solid sm" type="button" data-demo>Get a call</button>' +
+      '<a class="btn sm" href="' + esc(n.href) + '" target="_blank" rel="noopener noreferrer">Open on sparktg.com<span class="sr"> (opens in a new tab)</span></a></div>';
+    h += '<p class="src">This summary was written for the concept. ' +
+      (d.path ? 'Source: ' + esc(d.path) + '. Read 24 Oct 2026.' : 'Source: not read for this concept; see sparktg.com.') + '</p>';
+    pageEl.innerHTML = h; pageEl.scrollTop = 0;
+  }
+  pageEl.addEventListener('click', function(ev){
+    if (ev.target.closest('#pgBack') && state.page) go(state.path, null, state.page.id);
+  });
+
+  // ---- drawer chrome: open, close, focus trap ----
+  btn.addEventListener('click', function(){
+    if (isOpen) userClose();
+    else if (location.hash === '#/menu') applyRoute();
+    else location.hash = '#/menu';
+  });
+  document.getElementById('dClose').addEventListener('click', userClose);
+  scrim.addEventListener('click', userClose);
+  scroller.addEventListener('scroll', close, { passive: true });
+  pageEl.addEventListener('scroll', close, { passive: true });
+  window.addEventListener('hashchange', applyRoute);
+  document.addEventListener('keydown', function(e){
+    if (!isOpen) return;
+    if (e.key === 'Escape') { userClose(); return; }
+    if (e.key !== 'Tab') return;
+    var f = [].slice.call(drawer.querySelectorAll('a[href],button:not([disabled]),select,[tabindex="0"]')).filter(function(x){
+      return !x.closest('[inert]') && x.offsetParent !== null;
+    });
+    if (!f.length) return;
+    var first = f[0], last = f[f.length - 1];
+    if (!drawer.contains(document.activeElement)) { e.preventDefault(); first.focus(); }
+    else if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+  if (location.hash.indexOf('#/') === 0) applyRoute();
 })();
 </script>
 </body>
