@@ -6,20 +6,23 @@
 <meta name="robots" content="noindex">
 <title>SparkTG, a redesign concept (unofficial)</title>
 <meta name="description" content="An unofficial student redesign concept for the SparkTG website. Not made by or affiliated with SparkTG.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23FFB020'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23543D7B'/%3E%3Cstop offset='1' stop-color='%2300C1A5'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='8' cy='8' r='7' fill='url(%23g)'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>document.documentElement.className='js'</script>
 <style>
 /* Design plan
-   Tokens: mist/paper for surfaces, ink (navy) for actions and dark sections, amber only for the logo dot,
-   the top hairline, the routed path in the diagram and the assistant's chat border.
+   Tokens: mist/paper for surfaces, ink (navy) for actions and dark sections. The six-colour brand palette
+   (purple to green) appears only as accents: top strip, logo mark, hero stage, voice wave, icons, step markers,
+   the routed path in the diagram. Never used for body text (the light greens fail contrast on white).
    Type: Familjen Grotesk only. Sentence case, bold tight headlines, 17px body.
    Layout: one calm column, 1080px container, 72-96px between sections, ruled rows and a joined grid
    instead of separate rounded cards. One animated moment: the example call in the hero. */
 :root{
-  --mist:#EEF1F5; --paper:#FBFCFD; --ink:#10264A; --slate:#4F5F78; --line:#D3DAE4; --spark:#FFB020; --on-ink:#C9D3E3;
+  --mist:#EEF1F5; --paper:#FBFCFD; --ink:#10264A; --slate:#4F5F78; --line:#D3DAE4; --on-ink:#C9D3E3;
+  --c1:#543D7B; --c2:#2D5AA0; --c3:#0077B8; --c4:#0092C1; --c5:#00ABB9; --c6:#00C1A5; --spark:var(--c5);
+  --grad:linear-gradient(90deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6));
   --ink-2:#1B3768; --tile:#17305A;
 }
 *{box-sizing:border-box}
@@ -33,7 +36,7 @@ ul,ol{padding:0;list-style:none}
 .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
 .skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--paper);padding:8px 14px;border-radius:999px;z-index:60}
 .skip:focus{left:8px}
-.hairline{height:3px;background:var(--spark)}
+.hairline{height:4px;background:var(--grad)}
 
 /* notice */
 .notice{background:var(--ink);color:var(--on-ink);font-size:13.5px;line-height:1.45;padding:8px 0}
@@ -43,7 +46,7 @@ ul,ol{padding:0;list-style:none}
 header.site{position:sticky;top:0;z-index:30;background:rgba(251,252,253,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
 .bar{display:flex;align-items:center;gap:20px;height:60px}
 .mark{display:flex;align-items:center;gap:9px;font-weight:700;font-size:20px;letter-spacing:-.01em;text-decoration:none;margin-right:auto}
-.mark i{width:11px;height:11px;border-radius:50%;background:var(--spark)}
+.mark i{width:13px;height:13px;border-radius:50%;background:conic-gradient(var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c1))}
 nav ul{display:flex;gap:2px}
 nav a{display:block;text-decoration:none;font-size:15px;font-weight:500;color:var(--slate);padding:6px 13px;border-radius:999px}
 nav a:hover,nav a.on{background:var(--mist);color:var(--ink)}
@@ -70,11 +73,18 @@ h3{font-size:1.15rem;line-height:1.25;letter-spacing:-.01em;font-weight:600}
 .fine{font-size:14px;color:var(--slate)}
 
 /* hero */
-.hero{padding:64px 0 76px}
-.hero .grid{display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
+.hero{padding:64px 0 0;position:relative;overflow:hidden;background:radial-gradient(42% 60% at 94% 6%,rgba(84,61,123,.14),transparent 70%),radial-gradient(36% 50% at 4% 72%,rgba(0,193,165,.13),transparent 70%)}
+.hero .grid{padding-bottom:56px;display:grid;grid-template-columns:1.1fr .9fr;gap:56px;align-items:center}
 .buyer{font-weight:600;margin:0 0 14px;color:var(--slate)}
 .proofline{margin-top:18px}
+.stage{background:linear-gradient(135deg,var(--c1),var(--c2) 30%,var(--c3) 55%,var(--c5) 82%,var(--c6));padding:20px;border-radius:20px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.chips li{display:inline-flex;align-items:center;gap:7px;background:rgba(16,38,74,.42);color:#fff;border:1px solid rgba(255,255,255,.3);padding:5px 13px;border-radius:999px;font-size:14px;font-weight:600}
+.chips i{width:8px;height:8px;border-radius:50%;background:#fff}
 .call{background:#fff;border:1px solid var(--line);border-radius:10px;padding:20px 20px 16px}
+.wave{display:flex;align-items:flex-end;gap:5px;height:64px;max-width:1080px;margin:0 auto;padding:0 24px}
+.wave i{flex:1;min-width:2px;border-radius:3px 3px 0 0;transform-origin:bottom;animation:eq 1.7s ease-in-out infinite alternate}
+@keyframes eq{from{transform:scaleY(.3)}to{transform:scaleY(1)}}
 .call-head{display:flex;justify-content:space-between;gap:12px;font-size:14px;color:var(--slate);padding-bottom:12px;border-bottom:1px solid var(--line);margin-bottom:14px}
 .msg{margin-bottom:12px;max-width:88%}
 .msg small{display:block;font-size:13px;color:var(--slate);margin-bottom:2px}
@@ -95,7 +105,7 @@ section + section:not(.band):not(.dark){border-top:1px solid var(--line)}
 
 /* jargon terms */
 .term{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer;border-bottom:1.5px dotted var(--slate);line-height:inherit;text-align:inherit}
-.term:hover,.term[aria-expanded="true"]{border-bottom-color:var(--spark);background:rgba(255,176,32,.2)}
+.term:hover,.term[aria-expanded="true"]{border-bottom-color:var(--spark);background:rgba(0,171,185,.18)}
 .no-js .term{cursor:default;border-bottom:0}
 .no-js .term::after{content:" (" attr(data-def) ")";color:var(--slate);font-size:.88em}
 .pop{position:absolute;z-index:50;width:min(300px,calc(100vw - 32px));background:var(--ink);color:var(--paper);font-size:15px;line-height:1.45;padding:12px 14px;border-radius:8px;font-weight:400;letter-spacing:0}
@@ -114,9 +124,12 @@ section + section:not(.band):not(.dark){border-top:1px solid var(--line)}
 /* ruled rows (steps, industries, why) */
 .rows{border-top:1px solid var(--line)}
 .rows li,.rows .row{display:grid;grid-template-columns:72px 1fr;gap:16px;padding:22px 0;border-bottom:1px solid var(--line)}
-.rows .num{font-size:1.5rem;font-weight:600;color:var(--slate);line-height:1.1}
+.rows .num{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:#fff;font-size:1.1rem;font-weight:600}
+.rows li:nth-child(1) .num{background:var(--c1)}.rows li:nth-child(2) .num{background:var(--c2)}.rows li:nth-child(3) .num{background:var(--c3)}.rows li:nth-child(4) .num{background:var(--c4)}
 .rows p{color:var(--slate);max-width:56ch;margin-top:4px}
 .rows.two li,.rows.two .row{grid-template-columns:260px 1fr}
+.rows.two li{border-left:4px solid var(--c1);padding-left:18px}
+.rows.two li:nth-child(2){border-left-color:var(--c2)}.rows.two li:nth-child(3){border-left-color:var(--c3)}.rows.two li:nth-child(4){border-left-color:var(--c4)}.rows.two li:nth-child(5){border-left-color:var(--c5)}
 .rows.two h3{font-size:1.1rem}
 .rows.two p{margin-top:0}
 .route{margin-top:52px;border:1px solid var(--line);border-radius:10px;padding:20px 24px 14px;background:#fff}
@@ -127,17 +140,22 @@ section + section:not(.band):not(.dark){border-top:1px solid var(--line)}
 /* products: joined grid */
 .table{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .table>div{background:var(--paper);padding:22px}
+.ico{width:36px;height:36px;border-radius:9px;display:grid;place-items:center;margin-bottom:14px;color:#fff}
+.ico svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.table>div:nth-child(6n+1) .ico{background:var(--c1)}.table>div:nth-child(6n+2) .ico{background:var(--c2)}.table>div:nth-child(6n+3) .ico{background:var(--c3)}
+.table>div:nth-child(6n+4) .ico{background:var(--c4)}.table>div:nth-child(6n+5) .ico{background:var(--c5);color:var(--ink)}.table>div:nth-child(6n) .ico{background:var(--c6);color:var(--ink)}
 .table h3{margin-bottom:6px}
 .table p{color:var(--slate);font-size:16px}
 .table a{font-weight:600}
 
 /* dark sections */
-.dark{background:var(--ink);color:var(--paper);position:relative}
-.dark::before{content:"";position:absolute;left:24px;top:0;width:56px;height:4px;background:var(--spark)}
+.dark{background:radial-gradient(55% 80% at 100% 0%,rgba(84,61,123,.6),transparent 70%),radial-gradient(45% 70% at 0% 100%,rgba(0,171,185,.2),transparent 70%),var(--ink);color:var(--paper);position:relative}
+.dark::before{content:"";position:absolute;left:24px;top:0;width:96px;height:4px;background:var(--grad)}
 .dark h2{color:var(--paper)}
 .dark .intro,.dark .fine{color:var(--on-ink)}
 .stats{display:grid;grid-template-columns:repeat(5,1fr);gap:24px;margin-bottom:48px}
-.stats div{border-top:1px solid rgba(201,211,227,.35);padding-top:14px}
+.stats div{border-top:3px solid var(--c3);padding-top:14px}
+.stats div:nth-child(2){border-top-color:var(--c4)}.stats div:nth-child(3){border-top-color:var(--c5)}.stats div:nth-child(4){border-top-color:var(--c6)}.stats div:nth-child(5){border-top-color:var(--c5)}
 .stats strong{display:block;font-size:clamp(1.8rem,3.2vw,2.5rem);line-height:1.05;letter-spacing:-.03em;font-weight:600}
 .stats span{display:block;color:var(--on-ink);font-size:15px;margin-top:4px}
 .quote{border-top:1px solid rgba(201,211,227,.35);padding-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:48px}
@@ -155,6 +173,8 @@ section + section:not(.band):not(.dark){border-top:1px solid var(--line)}
 .apps{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .apps>div{background:var(--paper);padding:26px}
 .apps p{color:var(--slate);margin:6px 0 16px;max-width:42ch}
+.apps>div:nth-child(1){box-shadow:inset 0 4px 0 var(--c1)}
+.apps>div:nth-child(2){box-shadow:inset 0 4px 0 var(--c5)}
 .apps .store{display:flex;gap:8px;flex-wrap:wrap}
 .apps .meta{font-size:14px;color:var(--slate);margin:0 0 14px}
 
@@ -176,7 +196,7 @@ input{width:100%;font:inherit;font-size:16px;padding:11px 14px;border:1.5px soli
 
 /* footer */
 footer.dark{padding:72px 0 36px}
-footer.dark::before{display:none}
+footer.dark::before{left:0;width:100%;height:4px;background:var(--grad)}
 .foot-top{display:grid;grid-template-columns:1.2fr .8fr;gap:56px;align-items:end;padding-bottom:56px;border-bottom:1px solid rgba(201,211,227,.25)}
 .foot-top h2{max-width:16ch}
 .news p{color:var(--on-ink);margin-bottom:12px}
@@ -200,7 +220,8 @@ footer.dark::before{display:none}
   body{font-size:16.5px}
   section{padding:56px 0}
   .head{margin-bottom:28px}
-  .hero{padding:40px 0 56px}
+  .hero{padding:40px 0 0}
+  .hero .grid{padding-bottom:40px}
   .hero .grid,.talk,.foot-top,.quote,.apps{grid-template-columns:1fr;gap:32px}
   .three{grid-template-columns:1fr;gap:24px}
   .table{grid-template-columns:1fr}
@@ -232,6 +253,7 @@ footer.dark::before{display:none}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .js .msg{opacity:1;transform:none;transition:none}
+  .wave i{animation:none}
   .toast{transition:none}
 }
 </style>
@@ -274,6 +296,8 @@ footer.dark::before{display:none}
       <p class="fine proofline">500+ companies, as stated on sparktg.com. Underlined words open a short, plain explanation.</p>
     </div>
 
+    <div class="stage">
+      <ul class="chips" aria-label="Channels SparkTG covers"><li><i></i>Calls</li><li><i></i>WhatsApp</li><li><i></i>Assistants</li></ul>
     <div class="call" aria-label="An example customer call, illustrative">
       <div class="call-head"><span>Example call (illustrative)</span><span>Shop order enquiry</span></div>
       <div class="msg caller"><small>Customer</small><p>Hi, has my order shipped?</p></div>
@@ -283,7 +307,9 @@ footer.dark::before{display:none}
       <div class="msg bot"><small>SparkTG assistant</small><p>Sent. Anything else?</p></div>
       <p class="call-foot">A conversation written for this concept, not a real call.</p>
     </div>
+    </div>
   </div>
+  <div class="wave" id="wave" aria-hidden="true"></div>
 </div>
 
 <section id="what" class="band" aria-labelledby="what-h">
@@ -319,12 +345,12 @@ footer.dark::before{display:none}
     <figure class="route">
       <svg class="d" viewBox="0 0 960 230" role="img" aria-labelledby="rt1 rd1">
         <title id="rt1">How a call is routed</title>
-        <desc id="rd1">A customer's call reaches a call menu. Routine questions go to an assistant and other requests go to your team. Both outcomes are saved in your CRM.</desc>
+        <defs><linearGradient id="g1" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="960" y2="0"><stop offset="0" stop-color="#543D7B"/><stop offset=".25" stop-color="#2D5AA0"/><stop offset=".5" stop-color="#0092C1"/><stop offset=".75" stop-color="#00ABB9"/><stop offset="1" stop-color="#00C1A5"/></linearGradient></defs><desc id="rd1">A customer's call reaches a call menu. Routine questions go to an assistant and other requests go to your team. Both outcomes are saved in your CRM.</desc>
         <g fill="none" stroke="#10264A" stroke-width="1.6" stroke-linecap="round">
           <path d="M150 115 H258"/><path d="M392 115 C 430 115, 430 56, 478 56"/><path d="M392 115 C 430 115, 430 174, 478 174"/>
           <path d="M658 56 C 706 56, 706 115, 752 115"/><path d="M658 174 C 706 174, 706 115, 752 115"/>
         </g>
-        <g fill="none" stroke="#FFB020" stroke-width="3.2" stroke-linecap="round">
+        <g fill="none" stroke="url(#g1)" stroke-width="3.2" stroke-linecap="round">
           <path d="M150 115 H258"/><path d="M392 115 C 430 115, 430 56, 478 56"/><path d="M658 56 C 706 56, 706 115, 752 115"/>
         </g>
         <g font-family="Familjen Grotesk, system-ui, sans-serif" font-size="17" fill="#10264A">
@@ -340,12 +366,12 @@ footer.dark::before{display:none}
       </svg>
       <svg class="m" viewBox="0 0 320 330" role="img" aria-labelledby="rt2 rd2">
         <title id="rt2">How a call is routed</title>
-        <desc id="rd2">A customer's call reaches a call menu. Routine questions go to an assistant and other requests go to your team. Both outcomes are saved in your CRM.</desc>
+        <defs><linearGradient id="g2" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="330"><stop offset="0" stop-color="#543D7B"/><stop offset=".25" stop-color="#2D5AA0"/><stop offset=".5" stop-color="#0092C1"/><stop offset=".75" stop-color="#00ABB9"/><stop offset="1" stop-color="#00C1A5"/></linearGradient></defs><desc id="rd2">A customer's call reaches a call menu. Routine questions go to an assistant and other requests go to your team. Both outcomes are saved in your CRM.</desc>
         <g fill="none" stroke="#10264A" stroke-width="1.6" stroke-linecap="round">
           <path d="M160 46 V80"/><path d="M160 126 C 160 150, 80 140, 80 170"/><path d="M160 126 C 160 150, 240 140, 240 170"/>
           <path d="M80 216 C 80 250, 160 240, 160 276"/><path d="M240 216 C 240 250, 160 240, 160 276"/>
         </g>
-        <g fill="none" stroke="#FFB020" stroke-width="3.2" stroke-linecap="round">
+        <g fill="none" stroke="url(#g2)" stroke-width="3.2" stroke-linecap="round">
           <path d="M160 46 V80"/><path d="M160 126 C 160 150, 80 140, 80 170"/><path d="M80 216 C 80 250, 160 240, 160 276"/>
         </g>
         <g font-family="Familjen Grotesk, system-ui, sans-serif" font-size="15" fill="#10264A" text-anchor="middle">
@@ -369,15 +395,15 @@ footer.dark::before{display:none}
       <p class="intro">The products SparkTG lists on its site, each described in plain words.</p>
     </div>
     <div class="table">
-      <div><h3>Cloud contact centre</h3><p>SparkTG VCC, a <button class="term" type="button" aria-expanded="false" data-def="A call centre that runs in the cloud, so agents work from a browser instead of an office phone system.">virtual contact centre</button>. Your agents take and make calls from anywhere.</p></div>
-      <div><h3>Call menu</h3><p>The IVR solution: the menu callers hear first ("press 1 for…"), which sends each one to the right place.</p></div>
-      <div><h3>WhatsApp for business</h3><p>Automated and two-way WhatsApp messages, including media and order updates, through the Business API.</p></div>
-      <div><h3>Voice and chat assistants</h3><p>Voice bots and chat bots that answer routine questions so your team doesn't have to.</p></div>
-      <div><h3>Call masking</h3><p>Hides real phone numbers between customer and agent. <button class="term" type="button" aria-expanded="false" data-def="Customers and agents see a temporary number instead of each other's real numbers.">What's call masking?</button></p></div>
-      <div><h3>Click to call</h3><p>A customer or an agent starts a call from a web page or the CRM. <button class="term" type="button" aria-expanded="false" data-def="A button on a web page or in your CRM that starts a phone call in one tap.">What's click to call?</button></p></div>
-      <div><h3>Unified communications</h3><p>Voice, chat, SMS and messaging apps in one screen, so agents don't switch tools.</p></div>
-      <div><h3>Interaction insights</h3><p>Analytics, <button class="term" type="button" aria-expanded="false" data-def="Software that reads or listens to a conversation and judges whether the customer sounded happy, neutral or upset.">sentiment analysis</button>, call scoring and quality checks.</p></div>
-      <div><h3>Mobile apps</h3><p>Suno by SparkTG and the SparkTG Agent app, for sales and support teams on the move. <a href="#apps">See the apps</a></p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg></span><h3>Cloud contact centre</h3><p>SparkTG VCC, a <button class="term" type="button" aria-expanded="false" data-def="A call centre that runs in the cloud, so agents work from a browser instead of an office phone system.">virtual contact centre</button>. Your agents take and make calls from anywhere.</p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg></span><h3>Call menu</h3><p>The IVR solution: the menu callers hear first ("press 1 for…"), which sends each one to the right place.</p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-5 4z"/></svg></span><h3>WhatsApp for business</h3><p>Automated and two-way WhatsApp messages, including media and order updates, through the Business API.</p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4" y="8" width="16" height="11" rx="3"/><path d="M12 4v4"/><circle cx="9" cy="13" r="1"/><circle cx="15" cy="13" r="1"/></svg></span><h3>Voice and chat assistants</h3><p>Voice bots and chat bots that answer routine questions so your team doesn't have to.</p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 12s4-6 10-6 10 6 10 6-4 6-10 6S2 12 2 12z"/><path d="M4 4l16 16"/></svg></span><h3>Call masking</h3><p>Hides real phone numbers between customer and agent. <button class="term" type="button" aria-expanded="false" data-def="Customers and agents see a temporary number instead of each other's real numbers.">What's call masking?</button></p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 4l12 6-5 2-2 5z"/></svg></span><h3>Click to call</h3><p>A customer or an agent starts a call from a web page or the CRM. <button class="term" type="button" aria-expanded="false" data-def="A button on a web page or in your CRM that starts a phone call in one tap.">What's click to call?</button></p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 4l9 5-9 5-9-5z"/><path d="M3 14l9 5 9-5"/></svg></span><h3>Unified communications</h3><p>Voice, chat, SMS and messaging apps in one screen, so agents don't switch tools.</p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></span><h3>Interaction insights</h3><p>Analytics, <button class="term" type="button" aria-expanded="false" data-def="Software that reads or listens to a conversation and judges whether the customer sounded happy, neutral or upset.">sentiment analysis</button>, call scoring and quality checks.</p></div>
+      <div><span class="ico" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg></span><h3>Mobile apps</h3><p>Suno by SparkTG and the SparkTG Agent app, for sales and support teams on the move. <a href="#apps">See the apps</a></p></div>
     </div>
   </div>
 </section>
@@ -545,6 +571,22 @@ footer.dark::before{display:none}
     if (reduce) m.classList.add('in');
     else setTimeout(function(){ m.classList.add('in'); }, 500 + i * 1100);
   });
+
+  // decorative voice wave under the hero, in the brand colours
+  var wave = document.getElementById('wave');
+  var stops = [[84,61,123],[45,90,160],[0,119,184],[0,146,193],[0,171,185],[0,193,165]];
+  var n = 64;
+  for (var k = 0; k < n; k++) {
+    var t = k / (n - 1) * (stops.length - 1), lo = Math.floor(t), hi = Math.min(lo + 1, stops.length - 1), f = t - lo;
+    var c = stops[lo].map(function(v, j){ return Math.round(v + (stops[hi][j] - v) * f); });
+    var bar = document.createElement('i');
+    var h = 28 + Math.abs(Math.sin(k * 0.55) * 42) + Math.abs(Math.sin(k * 1.7)) * 24;
+    bar.style.height = Math.min(100, h) + '%';
+    bar.style.background = 'rgb(' + c.join(',') + ')';
+    bar.style.animationDelay = (-k * 0.11) + 's';
+    bar.style.animationDuration = (1.3 + (k % 5) * 0.2) + 's';
+    wave.appendChild(bar);
+  }
 
   // mobile menu
   var btn = document.getElementById('menuBtn'), nav = document.getElementById('nav');
